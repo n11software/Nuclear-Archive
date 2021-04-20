@@ -53,7 +53,7 @@ std::string Token::getString() {
 Lexer::Lexer(std::string data) {
     this->data = data;
     this->pos = -1;
-    this->currentChar = NULL;
+    this->currentChar = '\0';
     advance();
 }
 
@@ -63,10 +63,11 @@ void Lexer::advance() {
 }
 
 void Lexer::getTokens(std::vector<std::string>* tokens, Error* error) {
+    std::string digits = "0123456789";
     while (this->currentChar != '\0') {
         if (this->currentChar == ' ' || this->currentChar == '\n' || this->currentChar == '\t') {
             this->advance();
-        } else if (DIGITS.find(this->currentChar) != std::string::npos) {
+        } else if (digits.find(this->currentChar) != std::string::npos) {
             tokens->push_back(this->getNumber());
         } else if (this->currentChar == '+') {
             tokens->push_back(Token(TokenPlus).getString());
@@ -96,9 +97,10 @@ void Lexer::getTokens(std::vector<std::string>* tokens, Error* error) {
 }
 
 std::string Lexer::getNumber() {
+    std::string digitsDot = "0123456789.";
     std::string numStr = "";
     int dots = 0;
-    while (this->currentChar != '\0' && DIGITS_WITH_DOT.find(this->currentChar) != std::string::npos) {
+    while (this->currentChar != '\0' && digitsDot.find(this->currentChar) != std::string::npos) {
         if (this->currentChar == '.') {
             if (dots == 1) break;
             dots++;
@@ -106,7 +108,6 @@ std::string Lexer::getNumber() {
         } else numStr += currentChar;
         this->advance();
     }
-    if (dots == 0) return Token(TokenInteger, to_string(std::stoi(numStr,nullptr,0))).getString();
-    else return Token(TokenInteger, to_string(std::stof(numStr))).getString();
-    return "";
+    if (dots == 0) return Token(TokenInteger, std::to_string(std::stoi(numStr))).getString();
+    return Token(TokenFPD, std::to_string(std::stof(numStr))).getString();
 }

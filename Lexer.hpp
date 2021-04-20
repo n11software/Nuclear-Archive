@@ -11,8 +11,6 @@
 #include <iostream>
 #include <vector>
 
-std::string DIGITS = "0123456789";
-std::string DIGITS_WITH_DOT = "0123456789.";
 #define TokenInteger "INT"
 #define TokenFPD "FPD"
 #define TokenPlus "PLUS"

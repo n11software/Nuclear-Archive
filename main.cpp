@@ -11,7 +11,7 @@
 #include "Lexer.hpp"
 
 int main() {
-    std::string filename = "/Users/fire/Desktop/Nuclear/Nuclear/main.nuke";
+    std::string filename = "main.nuke";
     std::string data = "";
     std::fstream file;
     file.open(filename, std::ios::in);
@@ -29,9 +29,17 @@ int main() {
     std::vector<std::string> tokens;
     Error error = Error();
     lexer.getTokens(&tokens, &error);
-    if (error.getError() != "") std::cout << error.getError() << std::endl;
+    if (error.getError() != ": ") std::cout << error.getError() << std::endl;
     else {
-        std::cout << "Hello World!" << std::endl;
+        for (int i=0; i < tokens.size(); i++) {
+            if (i == tokens.size()-1) {
+                std::cout << tokens.at(i) << ']' << std::endl;
+            } else if (i == 0) {
+                std::cout << '[' << tokens.at(i) << ", ";
+            } else {
+                std::cout << tokens.at(i) << ", ";
+            }
+        }
     }
     file.close();
 }
