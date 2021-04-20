@@ -34,7 +34,7 @@ std::string Error::getError() {
     return this->name + ": " + this->message;
 }
 
-IllegalCharacterException::IllegalCharacterException(char c) : Error("Illegal Character Exception", to_string(c)) {}
+IllegalCharacterException::IllegalCharacterException(char c) : Error("Illegal Character Exception", '\'' + to_string(c) + '\'') {}
 
 Token::Token(std::string type) {
     this->type = type;
@@ -88,8 +88,8 @@ void Lexer::getTokens(std::vector<std::string>* tokens, Error* error) {
             tokens->push_back(Token(TokenRightParenthesis).getString());
             this->advance();
         } else {
-            this->advance();
             *error = IllegalCharacterException(currentChar);
+            this->advance();
             return;
         }
     }
