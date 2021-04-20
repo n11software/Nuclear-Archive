@@ -25,11 +25,11 @@ int main() {
         if (file.eof()) break;
         data += ch;
     }
-    Lexer lexer = Lexer(data);
+    Lexer lexer = Lexer(filename, data);
     std::vector<std::string> tokens;
     Error error = Error();
     lexer.getTokens(&tokens, &error);
-    if (error.getError() != ": ") std::cout << error.getError() << std::endl;
+    if (error.getError() != "") std::cout << error.getError() << std::endl;
     else {
         for (int i=0; i < tokens.size(); i++) {
             if (i == tokens.size()-1) {

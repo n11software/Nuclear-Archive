@@ -23,18 +23,29 @@
 std::string to_string(char c);
 std::string to_char(std::string str);
 
+class Position {
+    public:
+        Position();
+        Position(int index, int ln, int col, std::string filename, std::string data);
+        Position advance(char currentChar);
+        Position copy();
+        int index, ln, col;
+        std::string filename, data;
+};
+
 class Error {
     public:
-        Error(std::string name, std::string message);
+        Error(Position start, Position end, std::string name, std::string message);
         Error();
         std::string getError();
     private:
         std::string name = "", message;
+        Position start, end;
 };
 
 class IllegalCharacterException : public Error {
     public:
-        IllegalCharacterException(char c);
+        IllegalCharacterException(Position start, Position end, char c);
 };
 
 class Token {
@@ -49,14 +60,14 @@ class Token {
 
 class Lexer {
     public:
-        Lexer(std::string data);
+        Lexer(std::string filename, std::string data);
         void advance();
         void getTokens(std::vector<std::string>* tokens, Error* error);
         std::string getNumber();
     private:
-        std::string data;
+        std::string filename, data;
         char currentChar;
-        int pos = -1;
+        Position pos;
 };
 
 #endif /* Lexer_hpp */
