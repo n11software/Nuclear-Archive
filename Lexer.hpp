@@ -39,7 +39,7 @@ class Error {
         Error();
         std::string getError();
     private:
-        std::string name = "", message;
+        std::string name = "", message = "";
         Position start, end;
 };
 

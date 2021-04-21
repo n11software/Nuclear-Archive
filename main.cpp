@@ -4,6 +4,11 @@
 //
 //  Created by Levi Hicks on 4/15/21.
 //
+//  Goals:
+//      - Remove any stdlib and replace with own code
+//      - Implement on Hydra
+//      - Finish syntax concept
+//
 
 #include <iostream>
 #include <fstream>
