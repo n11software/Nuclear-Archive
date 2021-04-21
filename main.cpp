@@ -13,23 +13,24 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Lexer.hpp"
+#include "Nuke.hpp"
 
 int main() {
     std::string filename = "main.nuke";
     std::string data = "";
-    std::fstream file;
+    char ch;
+    std::ifstream file;
     file.open(filename, std::ios::in);
     if (!file) {
-        std::cout << "The file '" + filename + "' was not found!" << std::endl;
+        std::cout << "File lost or not found!" << std::endl;
+        std::cout << "Failed to compile; error whilst getting file data!" << std::endl;
         return -1;
     }
-    char ch;
-    while (1) {
-        file >> ch;
-        if (file.eof()) break;
+    while (!file.eof()) {
+        file >> std::noskipws >> ch;
         data += ch;
     }
+    file.close();
     Lexer lexer = Lexer(filename, data);
     std::vector<std::string> tokens;
     Error error = Error();

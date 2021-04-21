@@ -1,12 +1,12 @@
 //
-//  Lexer.hpp
+//  Nuke.hpp
 //  Nuclear
 //
 //  Created by Levi Hicks on 4/15/21.
 //
 
-#ifndef Lexer_hpp
-#define Lexer_hpp
+#ifndef Nuke_hpp
+#define Nuke_hpp
 
 #include <iostream>
 #include <vector>
@@ -70,4 +70,4 @@ class Lexer {
         Position pos;
 };
 
-#endif /* Lexer_hpp */
+#endif /* Nuke_hpp */

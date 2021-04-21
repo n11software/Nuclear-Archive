@@ -1,11 +1,11 @@
 //
-//  Lexer.cpp
+//  Nuke.cpp
 //  Nuclear
 //
 //  Created by Levi Hicks on 4/15/21.
 //
 
-#include "Lexer.hpp"
+#include "Nuke.hpp"
 #include <string>
 
 std::string to_string(char c) {
@@ -66,7 +66,7 @@ Error::Error() {
 }
 
 std::string Error::getError() {
-    if (this->name != "") return this->name + ": " + this->message + "\nFile " + this->start.filename + ", line " + std::to_string(this->start.ln+1);
+    if (this->name != "") return this->name + ": " + this->message + "\nFile " + this->start.filename + ", at " + std::to_string(this->start.ln+1) + ":" + std::to_string(this->start.col+1) + ":" + std::to_string(this->start.index+1);
     return "";
 }
 
@@ -91,12 +91,12 @@ Lexer::Lexer(std::string filename, std::string data) {
     this->data = data;
     this->pos = Position(-1, 0, -1, filename, data);
     this->currentChar = '\0';
-    advance();
+    this->advance();
 }
 
 void Lexer::advance() {
     this->pos.advance(this->currentChar);
-    this->currentChar = this->pos.index < this->data.length() ? this->data[this->pos.index] : '\0';
+    this->currentChar = this->pos.index < this->data.length()-1 ? this->data[this->pos.index] : '\0';
 }
 
 void Lexer::getTokens(std::vector<std::string>* tokens, Error* error) {
@@ -135,10 +135,10 @@ void Lexer::getTokens(std::vector<std::string>* tokens, Error* error) {
 }
 
 std::string Lexer::getNumber() {
-    std::string digitsDot = "0123456789.";
+    std::string digits = "0123456789.";
     std::string numStr = "";
     int dots = 0;
-    while (this->currentChar != '\0' && digitsDot.find(this->currentChar) != std::string::npos) {
+    while (this->currentChar != '\0' && digits.find(this->currentChar) != std::string::npos) {
         if (this->currentChar == '.') {
             if (dots == 1) break;
             dots++;
