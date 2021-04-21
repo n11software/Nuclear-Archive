@@ -15,8 +15,12 @@
 #include <string>
 #include "Nuke.hpp"
 
-int main() {
-    std::string filename = "main.nuke";
+int main(int argc, char **argv) {
+    if (argc == 1) {
+        std::cout << "Please specify a file to compile!" << std::endl;
+        return -1;
+    }
+    std::string filename = argv[1];
     std::string data = "";
     char ch;
     std::ifstream file;
